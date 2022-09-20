@@ -1,7 +1,7 @@
 {
    "name": "websocket-book",
    "version": "1.0.0",
-   "description": "",
+   "description": "https://github.com/kinabalu/websocketsbook",
    "main": "index.js",
    "scripts": {
       "start1": "node ./ch1/server.js",
