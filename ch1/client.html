@@ -3,14 +3,14 @@
    <head>
       <title>WebSocket Echo Demo</title>
       <meta charset="UTF-8" />
+      <meta name="author" content="Metal Gabe" />
       <meta name="description" content="WebSocket Echo Demo" />
       <meta name="keywords" content="websocket" />
-      <meta name="author" content="Metal Gabe" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link rel="stylesheet" href="http://bit.ly/cdn-bootstrap-css" />
       <link rel="stylesheet" href="http://bit.ly/cdn-bootstrap-theme" />
       <script src="http://bit.ly/cdn-bootstrap-jq"></script>
-      <script>
+      <script language="text/javascript">
          const ws = new WebSocket('ws://localhost:8123');
 
          ws.onopen = event => {
