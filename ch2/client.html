@@ -15,14 +15,14 @@
          const ws = new WebSocket('ws://localhost:8122');
 
          const stockRequest = {
-            stocks: ['AAPL', 'MSFT', 'AMZN', 'GOOG', 'YHOO'],
+            stocks: ['AAPL', 'AMZN', 'GOOG', 'MSFT', 'YHOO'],
          };
 
          const stocks = {
             AAPL: 0,
-            MSFT: 0,
             AMZN: 0,
             GOOG: 0,
+            MSFT: 0,
             YHOO: 0,
          };
 
@@ -50,12 +50,29 @@
             const stocksData = JSON.parse(event.data);
 
             for (const symbol in stocksData) {
-               if (stocks.hasOwnProperty(symbol)) {
+               if (stocksData.hasOwnProperty(symbol)) {
                   changeStockEntry(symbol, stocks[symbol], stocksData[symbol]);
                   stocks[symbol] = stocksData[symbol];
                }
             }
          };
+
+         ws.onerror = error => {
+            console.log('WebSocket failure w/ error:', { error });
+            handleErrors(error);
+         };
+
+         ws.onclose = event => {
+            console.log(`${event.reason} ${event.code}`);
+
+            for (const symbol of stocks) {
+               if (stocks.hasOwnProperty(symbol)) {
+                  stocks[symbol] = 0;
+               }
+            }
+         };
+
+         // ws.close(1000, 'Manually closing the WebSocket connection.');
       </script>
    </head>
 
