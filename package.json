@@ -7,7 +7,7 @@
       "format": "npx prettier --write --tab-width=3 --single-quote=true --trailing-comma=all",
       "start1": "node ./ch1/server.js",
       "start2": "node ./ch2/server.js",
-      "start3": "node ./ch3/server.js",
+      "start3": "node ./ch3/identity/server.js",
       "test": "echo \"Error: no test specified\" && exit 1"
    },
    "repository": {
@@ -21,6 +21,7 @@
    },
    "homepage": "https://github.com/gflujan/websocket-book#readme",
    "dependencies": {
+      "node-uuid": "^1.4.8",
       "uuid": "^9.0.0",
       "ws": "^8.8.1"
    },
