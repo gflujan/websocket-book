@@ -4,13 +4,13 @@ const uuidv4 = require('uuid').v4;
 
 const clients = [];
 
-wss.on('connection', ws => {
+wss.on('connection', (ws) => {
    const clientId = uuidv4();
    let nickname = clientId.substr(0, 8);
    console.log('A client has connected.', { clientId, nickname });
    clients.push({ id: clientId, nickname, ws });
 
-   ws.on('message', message => {
+   ws.on('message', (message) => {
       if (message.indexOf('/nick') === 0) {
          const nicknameChunks = message.split(' ');
 

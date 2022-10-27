@@ -33,10 +33,10 @@ const randomStockUpdater = () => {
 
 randomStockUpdater();
 
-wss.on('connection', ws => {
+wss.on('connection', (ws) => {
    let clientStockUpdaterIntervalId;
 
-   const sendStockUpdates = ws => {
+   const sendStockUpdates = (ws) => {
       if (ws.readyState === 1) {
          const stocksObj = {};
 
@@ -55,7 +55,7 @@ wss.on('connection', ws => {
 
    const clientStocks = [];
 
-   ws.on('message', message => {
+   ws.on('message', (message) => {
       const stockRequest = JSON.parse(message);
       sendStockUpdates(ws);
    });

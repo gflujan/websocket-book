@@ -4,6 +4,7 @@
    "description": "https://github.com/kinabalu/websocketsbook",
    "main": "index.js",
    "scripts": {
+      "format": "npx prettier --write --tab-width=3 --single-quote=true --trailing-comma=all",
       "start1": "node ./ch1/server.js",
       "start2": "node ./ch2/server.js",
       "start3": "node ./ch3/server.js",
@@ -22,5 +23,8 @@
    "dependencies": {
       "uuid": "^9.0.0",
       "ws": "^8.8.1"
+   },
+   "devDependencies": {
+      "prettier": "^2.7.1"
    }
 }

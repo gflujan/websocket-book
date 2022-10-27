@@ -12,22 +12,53 @@
       <script src="http://bit.ly/cdn-bootstrap-jq"></script>
       <script language="text/javascript">
          const ws = new WebSocket('ws://localhost:8121');
+         // const nickname = '';
 
-         ws.onmessage = event => {
-            const data = JSON.parse(event.data);
-            const messages = document.getElementById('messages');
-            const message = document.createElement('li');
-            message.innerHTML = data.message;
-            messages.appendChild(message);
-         };
-
-         ws.onopen = event => {
+         ws.onopen = (event) => {
             console.log('Connection to server has been opened.');
          };
 
+         function appendLog(nickname, message) {
+            const messagesElement = document.getElementById('messages');
+            const newMessagesElementItem = document.createElement('li');
+            let prefaceLabel;
+
+            if (nickname === '*') {
+               prefaceLabel = `<span class="label label-info">*</span>`;
+            } else {
+               prefaceLabel = `<span class="label label-success">${nickname}</span>`;
+            }
+
+            const messageText = `<h2>${prefaceLabel}  ${message}</h2>`;
+            newMessagesElementItem.innerHTML = messageText;
+            messagesElement.append(newMessagesElementItem);
+         }
+
+         ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            const { id, message, nickname } = data;
+            appendLog(nickname, message);
+            console.log(`ID: ${id} = ${message}`);
+         };
+
+         ws.onclose = (event) => {
+            appendLog('*', 'Connection closed');
+            console.log('Connection closed');
+         };
+
          function sendMessage() {
-            // TODO **[G]** :: Get rid of the jQuery version and replace it with a vanilla JS version
-            ws.send($('#message').val());
+            const messageElement = document.getElementById('message');
+
+            if (ws.readyState === WebSocket.OPEN) {
+               ws.send(messageElement.value);
+            }
+
+            messageElement.value = '';
+            messageElement.focus();
+         }
+
+         function disconnect() {
+            ws.close();
          }
       </script>
    </head>
@@ -56,13 +87,22 @@
                      value=""
                   />
                </div>
-               <button class="btn btn-primary" id="send" onclick="sendMessage();" type="button">
+               <button
+                  class="btn btn-primary"
+                  id="send"
+                  onclick="sendMessage();"
+                  type="button"
+               >
                   Send!
                </button>
             </form>
             <h1>Incoming Messages</h1>
             <ul
-               style="margin-top: 16px; min-height: 36px; outline: 1px solid blue"
+               style="
+                  margin-top: 16px;
+                  min-height: 36px;
+                  outline: 1px solid blue;
+               "
                id="messages"
             ></ul>
          </div>
