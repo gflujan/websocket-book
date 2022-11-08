@@ -1,31 +1,31 @@
 {
-   "name": "websocket-book",
-   "version": "1.0.0",
-   "description": "https://github.com/kinabalu/websocketsbook",
-   "main": "index.js",
-   "scripts": {
-      "format": "npx prettier --write --tab-width=3 --single-quote=true --trailing-comma=all",
-      "start1": "node ./ch1/server.js",
-      "start2": "node ./ch2/server.js",
-      "start3": "node ./ch3/identity/server.js",
-      "test": "echo \"Error: no test specified\" && exit 1"
-   },
-   "repository": {
-      "type": "git",
-      "url": "git+https://github.com/gflujan/websocket-book.git"
-   },
-   "author": "",
-   "license": "ISC",
-   "bugs": {
-      "url": "https://github.com/gflujan/websocket-book/issues"
-   },
-   "homepage": "https://github.com/gflujan/websocket-book#readme",
-   "dependencies": {
-      "node-uuid": "^1.4.8",
-      "uuid": "^9.0.0",
-      "ws": "^8.8.1"
-   },
-   "devDependencies": {
-      "prettier": "^2.7.1"
-   }
+  "name": "websocket-book",
+  "version": "1.0.0",
+  "description": "https://github.com/kinabalu/websocketsbook",
+  "main": "index.js",
+  "scripts": {
+    "format": "npx prettier --write --tab-width=2 --single-quote=true --trailing-comma=all",
+    "start1": "node ./ch1/server.js",
+    "start2": "node ./ch2/server.js",
+    "start3": "node ./ch3/identity/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gflujan/websocket-book.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gflujan/websocket-book/issues"
+  },
+  "homepage": "https://github.com/gflujan/websocket-book#readme",
+  "dependencies": {
+    "node-uuid": "^1.4.8",
+    "uuid": "^9.0.0",
+    "ws": "^8.8.1"
+  },
+  "devDependencies": {
+    "prettier": "^2.7.1"
+  }
 }

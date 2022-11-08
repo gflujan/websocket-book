@@ -1,138 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-      <title>Stock Chart over WebSocket</title>
-      <meta charset="UTF-8" />
-      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-      <meta name="author" content="Metal Gabe" />
-      <meta name="description" content="Stock Chart over WebSocket" />
-      <meta name="keywords" content="websocket" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="stylesheet" href="http://bit.ly/cdn-bootstrap-css" />
-      <link rel="stylesheet" href="http://bit.ly/cdn-bootstrap-theme" />
-      <script src="http://bit.ly/cdn-bootstrap-jq"></script>
-      <script language="text/javascript">
-         const ws = new WebSocket('ws://localhost:8122');
+  <head>
+    <title>Stock Chart over WebSocket</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="Metal Gabe" />
+    <meta name="description" content="Stock Chart over WebSocket" />
+    <meta name="keywords" content="websocket" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="http://bit.ly/cdn-bootstrap-css" />
+    <link rel="stylesheet" href="http://bit.ly/cdn-bootstrap-theme" />
+    <script src="http://bit.ly/cdn-bootstrap-jq"></script>
+    <script language="text/javascript">
+      const ws = new WebSocket('ws://localhost:8122');
 
-         const stockRequest = {
-            stocks: ['AAPL', 'AMZN', 'GOOG', 'MSFT', 'YHOO'],
-         };
+      const stockRequest = {
+        stocks: ['AAPL', 'AMZN', 'GOOG', 'MSFT', 'YHOO'],
+      };
 
-         const stocks = {
-            AAPL: 0,
-            AMZN: 0,
-            GOOG: 0,
-            MSFT: 0,
-            YHOO: 0,
-         };
+      const stocks = {
+        AAPL: 0,
+        AMZN: 0,
+        GOOG: 0,
+        MSFT: 0,
+        YHOO: 0,
+      };
 
-         ws.onopen = (event) => {
-            console.log('Connection to WS server has been established.');
-            ws.send(JSON.stringify(stockRequest));
-         };
+      ws.onopen = (event) => {
+        console.log('Connection to WS server has been established.');
+        ws.send(JSON.stringify(stockRequest));
+      };
 
-         // UI update function
-         const changeStockEntry = (symbol, originalValue, newValue) => {
-            const valueElement = $(`#${symbol} span`);
-            valueElement.html(newValue.toFixed(2));
+      // UI update function
+      const changeStockEntry = (symbol, originalValue, newValue) => {
+        const valueElement = $(`#${symbol} span`);
+        valueElement.html(newValue.toFixed(2));
 
-            if (newValue < originalValue) {
-               valueElement.addClass('label-danger');
-               valueElement.removeClass('label-success');
-            } else if (newValue > originalValue) {
-               valueElement.addClass('label-success');
-               valueElement.removeClass('label-danger');
-            }
-         };
+        if (newValue < originalValue) {
+          valueElement.addClass('label-danger');
+          valueElement.removeClass('label-success');
+        } else if (newValue > originalValue) {
+          valueElement.addClass('label-success');
+          valueElement.removeClass('label-danger');
+        }
+      };
 
-         // WebSocket message handler
-         ws.onmessage = (event) => {
-            const stocksData = JSON.parse(event.data);
+      // WebSocket message handler
+      ws.onmessage = (event) => {
+        const stocksData = JSON.parse(event.data);
 
-            for (const symbol in stocksData) {
-               if (stocksData.hasOwnProperty(symbol)) {
-                  changeStockEntry(symbol, stocks[symbol], stocksData[symbol]);
-                  stocks[symbol] = stocksData[symbol];
-               }
-            }
-         };
+        for (const symbol in stocksData) {
+          if (stocksData.hasOwnProperty(symbol)) {
+            changeStockEntry(symbol, stocks[symbol], stocksData[symbol]);
+            stocks[symbol] = stocksData[symbol];
+          }
+        }
+      };
 
-         ws.onerror = (error) => {
-            console.log('WebSocket failure w/ error:', { error });
-            handleErrors(error);
-         };
+      ws.onerror = (error) => {
+        console.log('WebSocket failure w/ error:', { error });
+        handleErrors(error);
+      };
 
-         ws.onclose = (event) => {
-            console.log(`${event.reason} ${event.code}`);
+      ws.onclose = (event) => {
+        console.log(`${event.reason} ${event.code}`);
 
-            for (const symbol of stocks) {
-               if (stocks.hasOwnProperty(symbol)) {
-                  stocks[symbol] = 0;
-               }
-            }
-         };
+        for (const symbol of stocks) {
+          if (stocks.hasOwnProperty(symbol)) {
+            stocks[symbol] = 0;
+          }
+        }
+      };
 
-         // ws.close(1000, 'Manually closing the WebSocket connection.');
-      </script>
-   </head>
+      // ws.close(1000, 'Manually closing the WebSocket connection.');
+    </script>
+  </head>
 
-   <body lang="en">
-      <div class="vertical-center">
-         <div class="container">
-            <h1>Stock Chart over WebSocket</h1>
-            <table class="table" id="stockTable">
-               <thead>
-                  <tr>
-                     <th>Symbol</th>
-                     <th>Price</th>
-                  </tr>
-               </thead>
-               <tbody id="stockRows">
-                  <tr>
-                     <td>
-                        <h3>AAPL</h3>
-                     </td>
-                     <td id="AAPL">
-                        <h3><span class="label label-default">95.00</span></h3>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td>
-                        <h3>MSFT</h3>
-                     </td>
-                     <td id="MSFT">
-                        <h3><span class="label label-default">50.00</span></h3>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td>
-                        <h3>AMZN</h3>
-                     </td>
-                     <td id="AMZN">
-                        <h3><span class="label label-default">300.00</span></h3>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td>
-                        <h3>GOOG</h3>
-                     </td>
-                     <td id="GOOG">
-                        <h3><span class="label label-default">550.00</span></h3>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td>
-                        <h3>YHOO</h3>
-                     </td>
-                     <td id="YHOO">
-                        <h3><span class="label label-default">35.00</span></h3>
-                     </td>
-                  </tr>
-               </tbody>
-            </table>
-         </div>
+  <body lang="en">
+    <div class="vertical-center">
+      <div class="container">
+        <h1>Stock Chart over WebSocket</h1>
+        <table class="table" id="stockTable">
+          <thead>
+            <tr>
+              <th>Symbol</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody id="stockRows">
+            <tr>
+              <td>
+                <h3>AAPL</h3>
+              </td>
+              <td id="AAPL">
+                <h3><span class="label label-default">95.00</span></h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>MSFT</h3>
+              </td>
+              <td id="MSFT">
+                <h3><span class="label label-default">50.00</span></h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>AMZN</h3>
+              </td>
+              <td id="AMZN">
+                <h3><span class="label label-default">300.00</span></h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>GOOG</h3>
+              </td>
+              <td id="GOOG">
+                <h3><span class="label label-default">550.00</span></h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h3>YHOO</h3>
+              </td>
+              <td id="YHOO">
+                <h3><span class="label label-default">35.00</span></h3>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+    </div>
 
-      <script src="http://bit.ly/cdn-bootstrap-minjs"></script>
-   </body>
+    <script src="http://bit.ly/cdn-bootstrap-minjs"></script>
+  </body>
 </html>
